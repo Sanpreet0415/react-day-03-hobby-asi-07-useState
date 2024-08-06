@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+     function Hobby(){
+        const [hobby , sethobby] = React.useState([]);
+        function addh(){
+            sethobby([...hobby , ""]);
+        }
+        function remove(index){
+            if(hobby.length > 1){
+                sethobby(hobby.filter((_, i)=> i!==index));
+            }
+            
+        };
+        function handlechange(element , ind){
+            const newhobby = hobby.map((hob,i)=>(i === ind ? element.target.value : hob));
+            sethobby(newhobby);
+        }
+        function handlesubmit(ele){
+            ele.preventDefault();
+            console.log(hobby);
+        }
+        return(
+            <div>
+                <form onSubmit={handlesubmit}>
+                    {
+                        hobby.map((ele,i)=>(
+                            <div key={i} style={{marginBottom: "10px"}}>
+                                <input type="text" value={ele} onChange={(event)=>handlechange(event , i)} placeholder="enter hobbies..."/>
+                                {i > 0 && (
+                                    <button type="button" onClick={()=> remove(i)}>Remove</button>
+                                )}
+
+                            </div>
+                        ))}
+                        <button onClick={addh}>add hobby</button>
+                    <button onClick={addh}>Submit</button>
+                </form>
+            </div>
+        );
+     }
+
+
+     let p= ReactDOM.createRoot(document.getElementById("root"));
+     p.render(<Hobby />)
+  </script>
+</html>
